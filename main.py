@@ -5,16 +5,18 @@ import image
 import os
 import ctypes
 
+pics_topics = ['nature', 'galaxy', 'night sky',
+               'peaceful', 'ocean waves', 'cave',
+               'forest', 'waterfall', 'aurora']
+authors = ['carl-jung', 'alan-watts', 'marcus-aurelius',
+           'jordan-peterson', 'terence-mckenna', 'albert-einstein',
+           'slavoj-zizek', 'arthur-schopenhauer', 'vincent-van-gogh',
+           'lao-tzu', 'oscar-wilde', 'viktor-e-frankl',
+           'joseph-campbell', 'lewis-carroll', 'friedrich-nietzsche',
+           'mark-twain', 'albert-camus', 'socrates']
+
 
 def change_wallpaper():
-    pics_topics = ['nature', 'galaxy', 'night sky',
-                   'peaceful', 'ocean waves', 'cave',
-                   'forest', 'waterfall', 'aurora']
-    authors = ['carl-jung', 'alan-watts', 'marcus-aurelius',
-               'jordan-peterson', 'terence-mckenna', 'albert-einstein',
-               'slavoj-zizek', 'arthur-schopenhauer', 'vincent-van-gogh',
-               'lao-tzu', 'oscar-wilde', 'viktor-e-frankl',
-               'joseph-campbell']
     path = os.getcwd() + "\\temp.jpg"
     pic = image.get_pic(choice(pics_topics))
     quote_with_pic = image.add_quote(pic, quotes.brainy_quotes_specific(choice(authors)))
