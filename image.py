@@ -33,7 +33,7 @@ def add_quote(pic_obj, text):
     img_data = BytesIO(req.get(pic_obj).content)
     img_obj = Image.open(img_data).convert("RGBA")
     pic_w, pic_h = img_obj.width, img_obj.height
-    font = ImageFont.truetype(r'C:\WINDOWS\FONTS\GOTHIC.TTF', img_obj.height//25)
+    font = ImageFont.truetype('GOTHIC.TTF', img_obj.height//25)
     draw = ImageDraw.Draw(img_obj)
     w, h = draw.textsize(text[0], font=font)
     rec, rec_draw = quote_container((pic_w, pic_h), (w, h), len(text))
