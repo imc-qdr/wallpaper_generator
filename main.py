@@ -21,7 +21,7 @@ run = True
 
 
 def change_wallpaper():
-    path = os.getcwd() + "\\temp.jpg"
+    path = os.getcwd() + r"\files\temp.jpg"
     pic = image.get_pic(choice(pics_topics))
     quote_with_pic = image.add_quote(pic, quotes.brainy_quotes_specific(choice(authors)))
     quote_with_pic.save(path, "JPEG")
@@ -30,7 +30,7 @@ def change_wallpaper():
 
 
 def create_tray():
-    tray = Icon('wisdom on pic', image.Image.open('icon.png'),
+    tray = Icon('wisdom on pic', image.Image.open(r'files\icon.png'),
                 menu=Menu(MenuItem('new image', change_wallpaper),
                           MenuItem('exit', terminate)))
     return tray
