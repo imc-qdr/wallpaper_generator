@@ -8,7 +8,7 @@ import json
 
 
 def get_pic(topic):
-    with open("pexel_key.json") as key:
+    with open(r"files\pexel_key.json") as key:
         api_key = json.load(key)['key']
     api = API(api_key)
     pics = api.search(topic, results_per_page=40)

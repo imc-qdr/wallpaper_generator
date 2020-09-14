@@ -1,7 +1,7 @@
 from pystray import Icon, Menu, MenuItem
 from random import choice
 from time import ctime, sleep
-import threading
+from threading import Thread
 import quotes
 import image
 import os
@@ -21,37 +21,46 @@ run = True
 
 
 def change_wallpaper():
-    path = os.getcwd() + r"\files\temp.jpg"
     pic = image.get_pic(choice(pics_topics))
     quote_with_pic = image.add_quote(pic, quotes.brainy_quotes_specific(choice(authors)))
-    quote_with_pic.save(path, "JPEG")
-    ctypes.windll.user32.SystemParametersInfoW(20, 0, path, 0)
+    quote_with_pic.save(r'files\temp.jpg', "JPEG")
+    ctypes.windll.user32.SystemParametersInfoW(20, 0, os.getcwd()+r'\files\temp.jpg', 0)
     print(f'operation successful: {ctime()}')
 
 
 def create_tray():
-    tray = Icon('wisdom on pic', image.Image.open(r'files\icon.png'),
+    global pause_state
+    pause_state = False
+    pause = MenuItem('pause', lambda: option('pause'), checked=lambda state: pause_state)
+    tray = Icon('wisdom on pic', title='Wallpaper Wisdom', icon=image.Image.open(r'files\icon.png'),
                 menu=Menu(MenuItem('new image', change_wallpaper),
-                          MenuItem('exit', terminate)))
+                          pause,
+                          MenuItem('exit', lambda: option('exit'))))
     return tray
 
 
 def on_schedule():
     while run:
         change_wallpaper()
-        sleep(40)
+        sleep(30)
     return
 
 
-def terminate():
-    icon.stop()
-    global run
-    run = False
+def option(string):
+    global pause_state, run
+    if string == 'exit':
+        run = False
+        icon.stop()
+    else:
+        if not pause_state:
+            run, pause_state = False, True
+        else:
+            run, pause_state = True, False
+            Thread(target=on_schedule).start()
 
 
 if __name__ == '__main__':
-    thread = threading.Thread(target=on_schedule)
-    thread.start()
+    Thread(target=on_schedule).start()
     icon = create_tray()
+    icon.update_menu()
     icon.run()
-    thread.join()
